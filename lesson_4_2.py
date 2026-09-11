@@ -16,6 +16,12 @@ class Visitor:
     def get_visitor_count(cls):
         return cls.count
 
+    @classmethod
+    def from_text(cls, text):
+        text = text.strip()
+        new_visitor = Visitor(text)
+        return new_visitor
+
     @staticmethod
     def validate_name(name):
         if name.strip():
@@ -29,3 +35,6 @@ Visitor.organisation = "Об.Ц. Geeks"
 print(Visitor.organisation, Visitor.count)
 print(Visitor.get_visitor_count())
 print(Visitor.validate_name("       "))
+visitor3 = Visitor.from_text("        Мурат      ")
+print(visitor3.name, Visitor.get_visitor_count())
+visitor3 = Visitor.from_text("           ")
