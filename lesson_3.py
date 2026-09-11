@@ -1,7 +1,7 @@
 # Инкапсуляция — хранение важных данных внутри класса
 # и изменение этих данных через методы с проверками.
 class BankAccount:
-    def __init__(self, owner, identity):
+    def __init__(self, owner, identity, name):
         # Одинарное подчёркивание обозначает protected-атрибут — договорённость:
         # такой атрибут не следует менять напрямую снаружи.
         self._owner = owner
@@ -9,6 +9,11 @@ class BankAccount:
         # Python скрывает их обычное имя, поэтому напрямую снаружи к ним не обращаются.
         self.__identity = identity
         self.__balance = 0
+        self.__name = ""
+        self.name = name
+
+    def __test_private(self):
+        print(self.__name)
 
     def deposit(self, amount):
         # Пополняем счет только положительной суммой.
@@ -32,13 +37,30 @@ class BankAccount:
     def get_balance(self):
         return self.__balance
 
+    # геттер ....
+    def get_name(self):
+        return self.__name
+
     # Сеттер — метод, через который изменяем значение приватного атрибута с проверкой.
-    def set_balance(self, amount):
-        if amount > 0:
-            self.__balance = amount
+    def set_name(self, new_name):
+        new_name = new_name.strip()
+        if not new_name:
+            raise ValueError("Имя счета не должно быть пустым")
+        self.__name = new_name
 
+    # геттер
+    @property
+    def name(self):
+        return self.__name
 
-igor_account = BankAccount("Igor", "fjdsjgof")
+    @name.setter
+    def name(self, new_name):
+        new_name = new_name.strip()
+        if not new_name:
+            raise ValueError("Имя счета не должно быть пустым")
+        self.__name = new_name
+
+igor_account = BankAccount("Igor", "fjdsjgof", "Основной")
 # Такое присваивание создало бы обычный balance и не изменило бы __balance.
 # igor_account.balance = 1_000_000
 print(igor_account.get_balance())
@@ -62,7 +84,9 @@ try:
 except ValueError as e:
     print(e)
 
-print(igor_account.get_balance())
-igor_account.set_balance(100)
+print(igor_account.get_name())
+igor_account.set_name("Зарплата")
+print(igor_account.name)
+igor_account.name = "Зарплата другая"
+print(igor_account.name)
 igor_account._owner = "Nikolay"  # технически можно, но так нарушается договоренность.
-
