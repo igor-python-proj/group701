@@ -21,6 +21,10 @@ class Room(InfoMixin, NamedObject):
         return f"Помещение: {self.name}"
 
 # show_info() общий, а get_info() вызывается из конкретного класса.
-Product("Хлеб").show_info()
+hleb = Product("Хлеб")
+hleb.show_info()
+hleb.blahblahblah()
 Room("Аудитория 4/3").show_info()
+# MRO - method resolution order - порядок поиска методов
+print(Product.mro())
 
